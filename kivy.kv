@@ -1,0 +1,59 @@
+InputForm:
+<InputForm>:
+    ip:ip
+	student_name: student_name
+	course: course
+	grade: grade
+	orientation: "vertical"
+	BoxLayout:
+        BoxLayout:
+            size_hint_y: 0.5
+            orientation: "vertical"
+            ToggleButton:
+                text: "connect to db"
+                on_press: root.connect()
+            Label:
+                text: "enter student name"
+            Label:
+                text: "enter Course"
+            Label:
+                text: "enter grade"
+        BoxLayout:
+            size_hint_y: 0.5
+            orientation: "vertical"
+		    TextInput:
+			    id: ip
+			TextInput:
+			    id: student_name
+	        Spinner:
+                text:'Math'
+                values:['Math','English','Sport']
+                id: course
+            TextInput:
+			    id: grade
+		BoxLayout:
+	BoxLayout:
+	    size_hint_x:1
+	    Button:
+	        text: "Fill DB"
+	        on_press: root.insert()
+	    Button:
+	        text: "show records"
+	        on_press: root.display_records()
+	    Button:
+	        text: 'Finish'
+	        on_press: root.out()
+<ShowRecords>:
+	res:results
+	orientation: "vertical"
+	Label:
+		id: results
+		size_hint_y: 20
+	BoxLayout:
+		BoxLayout:
+		Button:
+			text: 'Out'
+			size_hint_x: 0.2
+			on_press: root.out()
+		BoxLayout:
+	BoxLayout:
