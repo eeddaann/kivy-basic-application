@@ -8,6 +8,7 @@ import sys
 USER = 'cimlab'
 PASS = 'CimLab'
 DB = 'checkIt'
+TABLE = 'GradesTable'
 
 class InputForm(BoxLayout):
     'Input form entrty point'
@@ -20,15 +21,17 @@ class InputForm(BoxLayout):
         'Creates database and table if not exists yet'
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS)
         cur = con.cursor()
-        cur.execute('CREATE DATABASE if not exists checkIt;')
+        cur.execute('CREATE DATABASE if not exists %s;'%DB)
         con.commit()  # Makes transaction
         con.close()  # Close transaction
         # Connects get the ip address from user
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS Programs \
+        cur.execute("CREATE TABLE IF NOT EXISTS %s \
                     (Id INTEGER(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, \
-                    Lang varchar(8) NOT NULL, Grade INTEGER(3) NOT NULL)")
+                    StudentName varchar(8) NOT NULL,\
+                    CourseName varchar(8) NOT NULL,\
+                    Grade INTEGER(3) NOT NULL)"%TABLE)
         con.commit()
         con.close()
 
@@ -36,13 +39,13 @@ class InputForm(BoxLayout):
         'Inserts data to database'
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()  # Making cursor
-        if self.student_name.text.isalpha() and self.grade.text.isdigit():  # Check input
-            cur.execute("INSERT INTO Programs (student_name,course, grade) VALUES ('%s',%d)"
-                        % (self.student_name.text, self.course.text, int(self.grade.text)))  # Inserts user input to database
+        if self.student_name.text.isalpha() and self.course.text.isalpha() and self.grade.text.isdigit():  # Check input
+            cur.execute("INSERT INTO %s (StudentName,CourseName, Grade) VALUES ('%s','%s',%d)"
+                        % (TABLE,self.student_name.text, self.course.text, int(self.grade.text)))  # Inserts user input to database
             con.commit()
             con.close()
         else:
-            self.student_name.text = self.grade.text = 'Please type valid data'  # Error msg for incorrect input.
+            self.student_name.text = self.grade.text = 'Please enter valid data'  # Error msg for incorrect input.
             return
         self.student_name.text = self.grade.text = ''  # Clean text boxes
         self.student_name.focus = True  # Set focus on student name text box for another insertion.
@@ -70,7 +73,7 @@ class ShowRecords(BoxLayout):
         super(ShowRecords, self).__init__()  # Call builder of BoxLayout because we don't use default builder
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("SELECT * FROM Programs")  # Quering database
+        cur.execute("SELECT * FROM %s"%TABLE)  # Quering database
         rows = cur.fetchall()  # Retrive all rows from query.
         self.show(rows)  # Call method to show results,
 
@@ -88,14 +91,14 @@ class ShowRecords(BoxLayout):
     def count_users(self):
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("SELECT course,COUNT(student_name) FROM Programs GROUP BY course")
+        cur.execute("SELECT CourseName,COUNT(StudentName) FROM %s GROUP BY CourseName"%TABLE)
         rows=cur.fetchall()
         self.show(rows)
 
     def user_avg(self):
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("select a course, COUNT(student_name) FROM Programs group By course")
+        cur.execute("select a CourseName, COUNT(StudentName) FROM %s group By CourseName"%TABLE)
         rows=cur.fetchall()
         self.show(rows)
 
@@ -103,9 +106,9 @@ class ShowRecords(BoxLayout):
     def good_students(self):
         con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("SELECT student_name, grade FROM Programs\
-         WHERE grade=(SELECT MAX(grade) FROM Programs WHERE course= 'Math')\
-         AND course='Math'")
+        cur.execute("SELECT StudentName, Grade FROM %s\
+         WHERE grade=(SELECT MAX(Grade) FROM %s WHERE CourseName= 'Math')\
+         AND CourseName='Math'"%TABLE)
         rows=cur.fetchall()
         self.show(rows)
 

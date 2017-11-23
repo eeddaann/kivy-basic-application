@@ -31,9 +31,12 @@ InputForm:
                 id: course
             TextInput:
 			    id: grade
-		BoxLayout:
+    BoxLayout:
+        size_hint_x:1
+        size_hint_y:0.2
 	BoxLayout:
-	    size_hint_x:1
+        size_hint_x:1
+        size_hint_y:0.2
 	    Button:
 	        text: "Fill DB"
 	        on_press: root.insert()
