@@ -1,12 +1,15 @@
 InputForm:
 <InputForm>:
+    # define variables - connect between kivy id's to python vars
     ip:ip
 	student_name: student_name
 	course: course
 	grade: grade
 	orientation: "vertical"
 	BoxLayout:
+	    # layout of the form
         BoxLayout:
+            # layout for the labels
             size_hint_y: 0.5
             orientation: "vertical"
             ToggleButton:
@@ -19,23 +22,26 @@ InputForm:
             Label:
                 text: "enter grade"
         BoxLayout:
+            # layout for input elements
             size_hint_y: 0.5
             orientation: "vertical"
 		    TextInput:
 			    id: ip
-			    text: "127.0.0.1"
+			    text: "192.168.1.114" #default ip address
 			TextInput:
 			    id: student_name
-	        Spinner:
-                text:'Math'
+	        Spinner: #drop down list as required
+                text:'Math' #default value for spinner
                 values:['Math','English','Sport']
                 id: course
             TextInput:
 			    id: grade
     BoxLayout:
+        # space between elements
         size_hint_x:1
         size_hint_y:0.2
 	BoxLayout:
+	    # lower buttons
         size_hint_x:1
         size_hint_y:0.2
 	    Button:
