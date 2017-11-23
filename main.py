@@ -5,8 +5,8 @@ from kivy.properties import ObjectProperty
 import sys
 
 
-USER = 'cimlab'
-PASS = 'CimLab'
+USER = "root" #'cimlab'
+PASS = "1234" #'CimLab'
 DB = 'checkIt'
 TABLE = 'GradesTable'
 
@@ -19,7 +19,7 @@ class InputForm(BoxLayout):
 
     def connect(self):
         'Creates database and table if not exists yet'
-        con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS)
+        con = mdb.connect(host=self.ip.text,port=3306, user=USER, passwd=PASS)
         cur = con.cursor()
         cur.execute('CREATE DATABASE if not exists %s;'%DB)
         con.commit()  # Makes transaction
@@ -50,7 +50,7 @@ class InputForm(BoxLayout):
         self.student_name.text = self.grade.text = ''  # Clean text boxes
         self.student_name.focus = True  # Set focus on student name text box for another insertion.
 
-    def displayRecords(self):
+    def display_records(self):
         'Display new form on screen'
         self.clear_widgets()  # Clears InputForm
         self.add_widget(ShowRecords(self.ip.text))  # Adds ShowRecords as new form
@@ -71,10 +71,11 @@ class ShowRecords(BoxLayout):
     def __init__(self, ip):
         'Builder of the class'
         super(ShowRecords, self).__init__()  # Call builder of BoxLayout because we don't use default builder
-        con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
+        con = mdb.connect(host=ip, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
         cur.execute("SELECT * FROM %s"%TABLE)  # Quering database
         rows = cur.fetchall()  # Retrive all rows from query.
+        self.ip = ip
         self.show(rows)  # Call method to show results,
 
     def show(self, rows):
@@ -85,30 +86,31 @@ class ShowRecords(BoxLayout):
         else:
             for r in rows:
                     if len(r)>3:
-                        self.res.text += r[1] +''+r[2]+''+str(r[3])+ '\n'
+                        self.res.text += r[1] +'  '+r[2]+'  '+str(r[3])+ '\n'
                     else:
-                        self.res.text += r[0] + ' ' + str(r[1]) + '\n'  # Make readable msg
+                        self.res.text += r[0] + '  ' + str(r[1]) + '\n'  # Make readable msg
+
     def count_users(self):
-        con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
+        con = mdb.connect(host=self.ip, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
         cur.execute("SELECT CourseName,COUNT(StudentName) FROM %s GROUP BY CourseName"%TABLE)
         rows=cur.fetchall()
         self.show(rows)
 
     def user_avg(self):
-        con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
+        con = mdb.connect(host=self.ip, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
-        cur.execute("select a CourseName, COUNT(StudentName) FROM %s group By CourseName"%TABLE)
+        cur.execute("select StudentName, avg(Grade) FROM %s group By StudentName "%TABLE)
         rows=cur.fetchall()
         self.show(rows)
 
 
     def good_students(self):
-        con = mdb.connect(host=self.ip.text, user=USER, passwd=PASS, db=DB)
+        con = mdb.connect(host=self.ip, user=USER, passwd=PASS, db=DB)
         cur = con.cursor()
         cur.execute("SELECT StudentName, Grade FROM %s\
          WHERE grade=(SELECT MAX(Grade) FROM %s WHERE CourseName= 'Math')\
-         AND CourseName='Math'"%TABLE)
+         AND CourseName='Math'"%(TABLE,TABLE))
         rows=cur.fetchall()
         self.show(rows)
 

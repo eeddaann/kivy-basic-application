@@ -23,6 +23,7 @@ InputForm:
             orientation: "vertical"
 		    TextInput:
 			    id: ip
+			    text: "127.0.0.1"
 			TextInput:
 			    id: student_name
 	        Spinner:
@@ -55,8 +56,20 @@ InputForm:
 	BoxLayout:
 		BoxLayout:
 		Button:
+			text: 'User Avg'
+			size_hint_x: 1
+			on_press: root.user_avg()
+		Button:
+			text: 'Count Users'
+			size_hint_x: 1
+			on_press: root.count_users()
+		Button:
+			text: 'Genius!'
+			size_hint_x: 1
+			on_press: root.good_students()
+		Button:
 			text: 'Out'
-			size_hint_x: 0.2
+			size_hint_x: 1
 			on_press: root.out()
 		BoxLayout:
 	BoxLayout:
