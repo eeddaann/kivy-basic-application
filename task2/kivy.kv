@@ -1,0 +1,22 @@
+InputForm:
+<InputForm>:
+    # define variables - connect between kivy id's to python vars
+    brickname: brickname
+	orientation: "vertical"
+	BoxLayout:
+	    # layout of the form
+        BoxLayout:
+            # layout for the labels
+            padding: '5dp'
+            Label:
+                text: "Brick Name:"
+                size_hint_y: 0.3
+			TextInput:
+			    id: brickname
+			    on_focus: root.clean()
+			    size_hint_y: 0.3
+	        ToggleButton: #drop down list as required
+                text: 'Start'
+                on_press: root.start()
+                size_hint_y: 0.3
+	    BoxLayout:
