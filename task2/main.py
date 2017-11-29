@@ -9,13 +9,24 @@ import nxt.motor
 class InputForm(BoxLayout):
 	"Expose KV file Id's to python"
 	brickname = ObjectProperty()
+	status = ObjectProperty()
 
 	def __init__(self):
 		"Form constructor"
 		super(InputForm, self).__init__()
-		self.roboLego = nxt.locator.find_one_brick(name=self.brickname.text)
-		self.rMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_C)
-		self.lMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_A)
+		self.status.text = "no bluetooth device found"
+
+	def start(self):
+		try:
+			self.roboLego = nxt.locator.find_one_brick(name=self.brickname.text)
+			self.rMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_C)
+			self.lMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_A)
+			self.status.text = "connected"
+		except:
+			self.status.text = "no bluetooth device found"
+
+	def clean(self):
+		self.brickname.text = ""
 
 	def forward(self):
 		self.rMotor.run()

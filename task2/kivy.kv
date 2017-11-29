@@ -2,6 +2,7 @@ InputForm:
 <InputForm>:
     # define variables - connect between kivy id's to python vars
     brickname: brickname
+    status: status
 	orientation: "vertical"
 	BoxLayout:
 	    orientation: "vertical"
@@ -14,32 +15,11 @@ InputForm:
                 size_hint_y: 0.3
 			TextInput:
 			    id: brickname
+			    text: "Enter Brick Name"
 			    on_focus: root.clean()
 			    size_hint_y: 0.3
 	        ToggleButton: #drop down list as required
                 text: 'Start'
                 on_press: root.start()
                 size_hint_y: 0.3
-        BoxLayout:
-            Label:
-                text: "Press any..."
-        BoxLayout:
-            ToggleButton:
-                text: 'forward'
-                on_press: root.forward()
-        BoxLayout:
-            ToggleButton:
-                text: 'right'
-                on_press: root.right()
-
-
-            ToggleButton:
-                text: 'left'
-                on_press: root.left()
-
-        BoxLayout:
-            ToggleButton:
-                text: 'stop'
-                on_press: root.stop()
-
-
+	    BoxLayout:
