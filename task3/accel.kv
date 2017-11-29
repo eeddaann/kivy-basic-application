@@ -1,24 +1,38 @@
 Form:
 <Form>:
     # define variables - connect between kivy id's to python vars
-    lX:1x
-    1Y:1y
-    1Z:1z
+    lX: lX
+    lY: lY
+    lZ: lZ
+    but: but
+    lStatus: lStatus
 	orientation: "vertical"
 	BoxLayout:
 	    # layout of the form
         BoxLayout:
             # layout for the labels
+            orientation: "vertical"
             padding: '5dp'
             Label:
-                text: "Brick Name:"
+                id: lX
+                text: "X:"
                 size_hint_y: 0.3
-			TextInput:
-			    id: brickname
-			    on_focus: root.clean()
-			    size_hint_y: 0.3
-	        ToggleButton: #drop down list as required
+            Label:
+                id: lY
+                text: "Y:"
+                size_hint_y: 0.3
+            Label:
+                id: lZ
+                text: "Z:"
+                size_hint_y: 0.3
+            Label:
+                id: lStatus
+                text: ""
+                size_hint_y: 0.3
+            ToggleButton:
+                id: but
                 text: 'Start'
-                on_press: root.start()
+                on_press: root.do_toggle()
                 size_hint_y: 0.3
-	    BoxLayout:
+
+
