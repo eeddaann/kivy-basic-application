@@ -14,19 +14,16 @@ class InputForm(BoxLayout):
 	def __init__(self):
 		"Form constructor"
 		super(InputForm, self).__init__()
-		self.status.text = "no bluetooth device found"
-
+		self.status.text = "please connect bluetooth device"
+	def clean(self):
+		self.brickname.text =""
 	def start(self):
 		try:
 			self.roboLego = nxt.locator.find_one_brick(name=self.brickname.text)
 			self.rMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_C)
 			self.lMotor = nxt.Motor(self.roboLego, nxt.motor.PORT_A)
-			self.status.text = "connected"
 		except:
-			self.status.text = "no bluetooth device found"
-
-	def clean(self):
-		self.brickname.text = ""
+			self.status.text = "couldn't find bluetooth device"
 
 	def forward(self):
 		self.rMotor.run()
