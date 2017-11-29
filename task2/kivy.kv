@@ -4,6 +4,7 @@ InputForm:
     brickname: brickname
 	orientation: "vertical"
 	BoxLayout:
+	    orientation: "vertical"
 	    # layout of the form
         BoxLayout:
             # layout for the labels
@@ -19,4 +20,26 @@ InputForm:
                 text: 'Start'
                 on_press: root.start()
                 size_hint_y: 0.3
-	    BoxLayout:
+        BoxLayout:
+            Label:
+                text: "Press any..."
+        BoxLayout:
+            ToggleButton:
+                text: 'forward'
+                on_press: root.forward()
+        BoxLayout:
+            ToggleButton:
+                text: 'right'
+                on_press: root.right()
+
+
+            ToggleButton:
+                text: 'left'
+                on_press: root.left()
+
+        BoxLayout:
+            ToggleButton:
+                text: 'stop'
+                on_press: root.stop()
+
+
