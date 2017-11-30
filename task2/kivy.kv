@@ -27,20 +27,17 @@ InputForm:
                 id: status
                 text: "Press any..."
         BoxLayout:
-            ToggleButton:
+            Button:
                 text: 'forward'
                 on_press: root.forward()
         BoxLayout:
-            ToggleButton:
-                text: 'right'
-                on_press: root.right()
-
-
-            ToggleButton:
+            Button:
                 text: 'left'
                 on_press: root.left()
-
+            Button:
+                text: 'right'
+                on_press: root.right()
         BoxLayout:
-            ToggleButton:
+            Button:
                 text: 'stop'
                 on_press: root.stop()
