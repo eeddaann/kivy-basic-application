@@ -13,7 +13,7 @@ Form:
             # layout for the labels
             orientation: "vertical"
             padding: '5dp'
-            Label:
+            Label: # label for each axis
                 id: lX
                 text: "X:"
                 size_hint_y: 0.3
@@ -29,7 +29,7 @@ Form:
                 id: lStatus
                 text: ""
                 size_hint_y: 0.3
-            ToggleButton:
+            ToggleButton: # start button
                 id: but
                 text: 'Start'
                 on_press: root.do_toggle()

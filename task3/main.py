@@ -9,11 +9,11 @@ from plyer import accelerometer
 
 class Form(BoxLayout):
 	"Expose KV file Id's to python"
-	lX = ObjectProperty()
-	lY = ObjectProperty()
-	lZ = ObjectProperty()
-	but = ObjectProperty()
-	lStatus = ObjectProperty()
+	lX = ObjectProperty() # label for x axis
+	lY = ObjectProperty() # label for y axis
+	lZ = ObjectProperty() # label for z axis
+	but = ObjectProperty() # button
+	lStatus = ObjectProperty() # status bar
 
 
 	def __init__(self):
