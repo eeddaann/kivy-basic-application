@@ -54,6 +54,7 @@ public class LegoMove {
 							}
 				        LCD.clear();
 				        LCD.drawInt(n, 4, 4);
+				        // these are the lines we have added to control the robot
 				        if (n==102) {
 				            Motor.A.forward();
 				            Motor.C.forward();

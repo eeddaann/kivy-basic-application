@@ -8,50 +8,47 @@ from plyer import accelerometer
 
 
 class Form(BoxLayout):
-	"Expose KV file Id's to python"
-	lX = ObjectProperty() # label for x axis
-	lY = ObjectProperty() # label for y axis
-	lZ = ObjectProperty() # label for z axis
-	but = ObjectProperty() # button
-	lStatus = ObjectProperty() # status bar
+    "Expose KV file Id's to python"
+    lX = ObjectProperty()  # label for x axis
+    lY = ObjectProperty()  # label for y axis
+    lZ = ObjectProperty()  # label for z axis
+    but = ObjectProperty()  # button
+    lStatus = ObjectProperty()  # status bar
 
+    def __init__(self):
+        "Form constructor"
+        super(Form, self).__init__()
+        self.sensorEnabled = False
 
-	def __init__(self):
-		"Form constructor"
-		super(Form, self).__init__()
-		self.sensorEnabled = False
+    def do_toggle(self):
+        try:
+            if not self.sensorEnabled:
+                accelerometer.enable()
+                # Enabling repetitive calls to get_acceleration
+                # method every quarter of a second
+                Clock.schedule_interval(self.get_acceleration, 1 / 4.)
+                self.sensorEnabled = True
+                # Change button text
+                self.but.text = "Stop Accelerometer"
+            else:
+                accelerometer.disable()
+                Clock.unschedule(self.get_acceleration)
+                self.sensorEnabled = False
+                self.but.text = "Start Accelerometer"
+        except NotImplementedError:
+            self.lStatus.text = "Accelerometer is not implemented for your platform"
 
-
-	def do_toggle(self):
-		try:
-			if not self.sensorEnabled:
-				accelerometer.enable()
-				# Enabling repetitive calls to get_acceleration
-				# method every quarter of a second
-				Clock.schedule_interval(self.get_acceleration, 1 / 4.)
-				self.sensorEnabled = True
-				# Change button text
-				self.but.text = "Stop Accelerometer"
-			else:
-				accelerometer.disable()
-				Clock.unschedule(self.get_acceleration)
-				self.sensorEnabled = False
-				self.but.text = "Start Accelerometer"
-		except NotImplementedError:
-			self.lStatus.text = "Accelerometer is not implemented for your platform"
-
-
-	def get_acceleration(self, dt):
-		val = accelerometer.acceleration[:3]
-		if (not val == (None, None, None)):
-			self.lX.text = "X: " + str(round(val[0], 2))
-			self.lY.text = "Y: " + str(round(val[1], 2))
-			self.lZ.text = "Z: " + str(round(val[2], 2))
+    def get_acceleration(self, dt):
+        val = accelerometer.acceleration[:3]
+        if (not val == (None, None, None)):
+            self.lX.text = "X: " + str(round(val[0], 2))
+            self.lY.text = "Y: " + str(round(val[1], 2))
+            self.lZ.text = "Z: " + str(round(val[2], 2))
 
 
 class AccelApp(App):
-	pass
+    pass
 
 
 if __name__ == '__main__':
-	AccelApp().run()
+    AccelApp().run()

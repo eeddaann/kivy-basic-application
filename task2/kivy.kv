@@ -16,20 +16,20 @@ InputForm:
 			TextInput:
 			    id: brickname
 			    text: "enter brick name"
-			    on_focus: root.clean()
+			    on_focus: root.clean() # on focus set the text to ""
 			    size_hint_y: 0.3
-	        ToggleButton: #drop down list as required
+	        ToggleButton:
                 text: 'Start'
-                on_press: root.start()
+                on_press: root.start() # on press tries to open connection with the robot
                 size_hint_y: 0.3
         BoxLayout:
             Label:
                 id: status
                 text: "Press any..."
-        BoxLayout:
+        BoxLayout: # the following buttons placed like this to give natural driving experience.
             Button:
                 text: 'forward'
-                on_press: root.forward()
+                on_press: root.forward() # call the relevant function in python for moving forward
         BoxLayout:
             Button:
                 text: 'left'
